@@ -3,11 +3,11 @@ POST http://127.0.0.1:9001/api/signup
 Content-Type: application/json
 
 {
- "email":"ram@gmail.com",
+ "email":"redtomato@gmail.com",
  "password":"123456",
  "profile": {
-        "first_name": "ram",
-        "last_name": "kumar",
+        "first_name": "tomato",
+        "last_name": "zou",
         "phone_number": "1234567891",
         "age": 11,
         "gender": "M"
@@ -29,3 +29,38 @@ Content-Type: application/json
 GET http://127.0.0.1:9001/api/profile
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODQ0MmRiMzItY2UyZC00NGJhLWEzZjItYWUwOTM2NWZhZGM4IiwidXNlcm5hbWUiOiJyYW1AZ21haWwuY29tIiwiZXhwIjoxNjA4NTEzMDMwLCJlbWFpbCI6InJhbUBnbWFpbC5jb20ifQ.E3RrxEgxKH62yj8oahTKJQ_RrRlHEItBXZwYCtDM5A4
+
+###
+# 使用原生 User
+POST http://127.0.0.1:9001/api/signup
+Content-Type: application/json
+
+{
+ "email":"redtomato@gmail.com",
+ "password":"123456",
+ "first_name": "tomato1",
+ "last_name": "zou1",
+ "username" :"Shark1",
+ "is_active":true,
+ "is_staff":false,
+ "profile": {
+        "phone_number": "1111111111",
+        "age": 21,
+        "gender": "F"
+ }
+}
+
+###
+POST http://127.0.0.1:9001/api/signin
+Content-Type: application/json
+
+{
+ "username":"Shark1",
+ "password":"123456"
+}
+
+
+###
+GET http://127.0.0.1:9001/api/profile
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODU0OTI5MSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0._NtELkSPeocGOBWKsHGDyQTB-XupJDO6fo0SK9V0pyE

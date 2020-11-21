@@ -68,6 +68,8 @@ class UserLoginView(RetrieveAPIView):
             'success': 'True',
             'status code': status.HTTP_200_OK,
             'message': 'User logged in  successfully',
+            'name': serializer.data['username'],
+            'email':serializer.data['email'],
             'token': serializer.data['token'],
         }
         status_code = status.HTTP_200_OK
@@ -89,8 +91,8 @@ class UserProfileView(RetrieveAPIView):
                 'status code': status_code,
                 'message': 'User profile fetched successfully',
                 'data': [{
-                    'first_name': user_profile.first_name,
-                    'last_name': user_profile.last_name,
+                    'first_name': request.user.first_name,
+                    'last_name': request.user.last_name,
                     'phone_number': user_profile.phone_number,
                     'age': user_profile.age,
                     'gender': user_profile.gender,
