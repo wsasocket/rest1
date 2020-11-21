@@ -1,0 +1,31 @@
+###
+POST http://127.0.0.1:9001/api/signup
+Content-Type: application/json
+
+{
+ "email":"ram@gmail.com",
+ "password":"123456",
+ "profile": {
+        "first_name": "ram",
+        "last_name": "kumar",
+        "phone_number": "1234567891",
+        "age": 11,
+        "gender": "M"
+ }
+}
+###
+
+POST http://127.0.0.1:9001/api/signin
+Content-Type: application/json
+
+{
+ "email": "ram@gmail.com",
+ "password": "123456"
+}
+
+
+###
+
+GET http://127.0.0.1:9001/api/profile
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODQ0MmRiMzItY2UyZC00NGJhLWEzZjItYWUwOTM2NWZhZGM4IiwidXNlcm5hbWUiOiJyYW1AZ21haWwuY29tIiwiZXhwIjoxNjA4NTEzMDMwLCJlbWFpbCI6InJhbUBnbWFpbC5jb20ifQ.E3RrxEgxKH62yj8oahTKJQ_RrRlHEItBXZwYCtDM5A4
