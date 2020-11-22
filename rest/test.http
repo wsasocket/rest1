@@ -51,16 +51,47 @@ Content-Type: application/json
 }
 
 ###
-POST http://127.0.0.1:9001/api/signin
+POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"Shark1",
- "password":"123456"
+ "username":"james",
+ "password":"netpower"
 }
 
 
 ###
-GET http://127.0.0.1:9001/api/profile
+GET http://127.0.0.1:8000/api/profile
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODU0OTI5MSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0._NtELkSPeocGOBWKsHGDyQTB-XupJDO6fo0SK9V0pyE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+
+###
+
+# 查询group信息
+GET http://127.0.0.1:8000/api/group/管理组5
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+
+###
+# 创建一个group
+POST http://127.0.0.1:8000/api/group/create
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+
+{
+       "name":"管理组",
+       "level":911
+}
+
+
+###
+# 修改组信息
+PATCH http://127.0.0.1:8000/api/group/update/719e7dbaff97461fbee33b255f53577e/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+
+{
+      
+       "name":"管理组5",
+       "level":5
+}

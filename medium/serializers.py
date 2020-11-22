@@ -6,7 +6,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework_jwt.settings import api_settings
-from .models import User, UserProfile
+from .models import User, UserProfile, UserGroup
 
 # 获取 setting.py 中的定义常量
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -84,3 +84,25 @@ class UserLoginSerializer(serializers.Serializer):
             'token': jwt_token,
             'email': user.email,
         }
+
+
+class UserGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserGroup
+        fields = '__all__'
+
+    # 创建数据记录
+    def create(self, validated_data):
+        print('create')
+        return UserGroup.objects.create(**validated_data)
+
+    # 更新数据记录
+    def update(self, instance, validated_data):
+        # instance 就是数据库查询实例
+        print('update')
+        print(type(instance))
+        # instance.id = validated_data.get('id', instance.id)
+        instance.name = validated_data.get('name', instance.name)
+        instance.level = validated_data.get('level', instance.level)
+        instance.save()
+        return instance

@@ -78,14 +78,30 @@ from django.contrib.auth.models import PermissionsMixin
 #         '''
 #         db_table = "login"
 
+class UserGroup(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=128, unique=True)
+    level = models.IntegerField(unique=True)
+
+    class Meta:
+        '''
+        自定义在数据库中的表名
+        '''
+        db_table = "usergroup"
+
 
 class UserProfile(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # 设置了一个外键，与 User模型相关联 pk相关联
     #  注意 User 模型来自于哪里！
+    # related_name 相当于使用user.profile就能访问profile表
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile')
+    # 一对多关系
+    group = models.ForeignKey(
+        UserGroup, on_delete=models.CASCADE, related_name='group')
+
     # first_name = models.CharField(max_length=50, unique=False)
     # last_name = models.CharField(max_length=50, unique=False)
     phone_number = models.CharField(
@@ -96,6 +112,7 @@ class UserProfile(models.Model):
         ('F', 'Female'),
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    is_group_leader = models.BooleanField(default=False)
 
     class Meta:
         '''
