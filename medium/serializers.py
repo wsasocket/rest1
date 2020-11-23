@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('phone_number', 'age', 'gender')
+        fields = ('phone_number', 'age', 'gender', 'group')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -43,7 +43,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             # last_name=profile_data['last_name'],
             phone_number=profile_data['phone_number'],
             age=profile_data['age'],
-            gender=profile_data['gender']
+            gender=profile_data['gender'],
+            # profile中的外键指向group，只要提交group的pk就能自动获取group实例
+            group=profile_data['group']
         )
         return user
 

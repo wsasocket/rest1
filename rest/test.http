@@ -32,7 +32,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODQ0M
 
 ###
 # 使用原生 User
-POST http://127.0.0.1:9001/api/signup
+POST http://127.0.0.1:8000/api/signup
 Content-Type: application/json
 
 {
@@ -46,8 +46,10 @@ Content-Type: application/json
  "profile": {
         "phone_number": "1111111111",
         "age": 21,
-        "gender": "F"
+        "gender": "F",
+        "group":"d4e2a24b91334eafb2d8bb5d30057618"
  }
+ 
 }
 
 ###
@@ -55,43 +57,50 @@ POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"james",
- "password":"netpower"
+ "username":"Shark1",
+ "password":"123456"
 }
 
 
 ###
 GET http://127.0.0.1:8000/api/profile
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODY5MTczNSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.mZ2u-1Sv-I1lfxmuP-yVpP4QgVcbGmKRlHQ5Zgz5n7Y
 
 ###
 
 # 查询group信息
-GET http://127.0.0.1:8000/api/group/管理组5
+GET http://127.0.0.1:8000/api/group/c357110e1a974907bfc91d5612a188e2/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+###
+
+# 查询group信息
+GET http://127.0.0.1:8000/api/group/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+
 
 ###
 # 创建一个group
-POST http://127.0.0.1:8000/api/group/create
+POST http://127.0.0.1:8000/api/group/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
 
 {
-       "name":"管理组",
-       "level":911
+       "name":"管理组3",
+       "level":91
 }
 
 
 ###
 # 修改组信息
-PATCH http://127.0.0.1:8000/api/group/update/719e7dbaff97461fbee33b255f53577e/
+PATCH http://127.0.0.1:8000/api/group/update/c357110e1a974907bfc91d5612a188e2/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NjE5ODQ5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.XYp3oORF6rkAiB1ULwAZrNtRZndfCKjtRr_EEQhZAjk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
 
 {
       
-       "name":"管理组5",
-       "level":5
+       "name":"管理组6",
+       "level":6
 }

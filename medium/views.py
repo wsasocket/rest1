@@ -100,6 +100,7 @@ class UserProfileView(RetrieveAPIView):
                     'phone_number': user_profile.phone_number,
                     'age': user_profile.age,
                     'gender': user_profile.gender,
+                    'group': user_profile.group.name
                 }]
             }
 
@@ -127,7 +128,7 @@ class UserGroupView(RetrieveAPIView):
             groups = UserGroup.objects.all()
             s = self.serializer_class(groups, many=True)
         else:
-            groups = UserGroup.objects.filter(name=kwarg['id']).first()
+            groups = UserGroup.objects.filter(id=kwarg['id']).first()
             s = self.serializer_class(groups)
         return Response(s.data, status=status.HTTP_200_OK)
 
@@ -149,7 +150,6 @@ class UserGroupViewCreate(CreateAPIView):
             'name': serializer.data['name'],
             'level': serializer.data['level'],
         }
-
         return Response(response, status=status.HTTP_200_OK)
 
 
@@ -160,12 +160,13 @@ class UserGroupViewUpdate(UpdateAPIView):
     # 在 url.py中设置正则名为 一致
     # 就是说通过url设置查询的关键字 ，这个框架自动化的地方在于把 lookup_field queryset
     # 设置好会自动过滤出需要的数据set，在serializer类中可以修改保存
-    lookup_field = 'id'  # 注意在请求url中的正则表达式
-    queryset = UserGroup.objects.all()
+    # lookup_field = 'id'  # 注意在请求url中的正则表达式
+    # queryset = UserGroup.objects.all()
     # 修改组的信息
 
-    def PATCH(self, request):
-        serializer = self.serializer_class(self.queryset, data=request.data)
+    def patch(self, request, **kwargs):
+        instance = UserGroup.objects.filter(id=kwargs['id']).first()
+        serializer = self.serializer_class(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         response = {
