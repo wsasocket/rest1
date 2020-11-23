@@ -26,7 +26,7 @@ Content-Type: application/json
 
 ###
 
-GET http://127.0.0.1:9001/api/profile
+GET http://127.0.0.1:8000/api/profile
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODQ0MmRiMzItY2UyZC00NGJhLWEzZjItYWUwOTM2NWZhZGM4IiwidXNlcm5hbWUiOiJyYW1AZ21haWwuY29tIiwiZXhwIjoxNjA4NTEzMDMwLCJlbWFpbCI6InJhbUBnbWFpbC5jb20ifQ.E3RrxEgxKH62yj8oahTKJQ_RrRlHEItBXZwYCtDM5A4
 
@@ -47,12 +47,22 @@ Content-Type: application/json
         "phone_number": "1111111111",
         "age": 21,
         "gender": "F",
-        "group":"d4e2a24b91334eafb2d8bb5d30057618"
+        "group":"17584cd06a164e6b8a6a84ac1f045e18"
  }
  
 }
 
 ###
+POST http://127.0.0.1:8000/api/signin
+Content-Type: application/json
+
+{
+ "username":"james",
+ "password":"netpower"
+}
+
+###
+# 用户登录
 POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
@@ -63,32 +73,32 @@ Content-Type: application/json
 
 
 ###
-GET http://127.0.0.1:8000/api/profile
+GET http://127.0.0.1:8000/api/profile/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODY5MTczNSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.mZ2u-1Sv-I1lfxmuP-yVpP4QgVcbGmKRlHQ5Zgz5n7Y
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
 
 ###
 
 # 查询group信息
-GET http://127.0.0.1:8000/api/group/c357110e1a974907bfc91d5612a188e2/
+GET http://127.0.0.1:8000/api/group/17584cd06a164e6b8a6a84ac1f045e18/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODcxOTU4MSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.OI5pIGHR16b4t05T-RMZh2-TANtqIQDQrf27HVYu6Sc
 ###
 
 # 查询group信息
 GET http://127.0.0.1:8000/api/group/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g
 
 
 ###
 # 创建一个group
 POST http://127.0.0.1:8000/api/group/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
 
 {
-       "name":"管理组3",
+       "name":"管理组",
        "level":91
 }
 
@@ -97,10 +107,54 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c
 # 修改组信息
 PATCH http://127.0.0.1:8000/api/group/update/c357110e1a974907bfc91d5612a188e2/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Njg0MzYxLCJlbWFpbCI6ImFkbWluQG5ldHBvd2VyLmNvbSJ9.VzjqXktobq1TgrG7CYkEtsoFXrQRq0JO9sgIXjMppFA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g
 
 {
       
        "name":"管理组6",
        "level":6
 }
+
+### 
+# 查询项目信息
+GET http://127.0.0.1:8000/api/project/
+Content-Type: application/json
+
+###
+# 查询单个项目信息
+GET http://127.0.0.1:8000/api/project/e1acd1520d6746c1bb4dee0fe7ed2c35/
+Content-Type: application/json
+
+
+###
+# 创建新项目
+POST http://127.0.0.1:8000/api/project/create/
+Content-Type: application/json
+
+{
+       "status":1,
+       "name":"花花公子5.0项目",
+       "description":"内容保密"
+}
+
+###
+# 创建任务信息
+POST http://127.0.0.1:8000/api/jobs/create/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
+
+{
+       "worker":2,
+       "update_time":"2020-10-10",
+       "project":"e1acd1520d6746c1bb4dee0fe7ed2c35",
+       "brief":"正经工作", 
+       "description":"正经工作，所以要认真完成",
+       "status":2,
+       "hours":1.5
+}
+
+###
+# 查询某人的任务信息
+GET http://127.0.0.1:8000/api/jobs/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g

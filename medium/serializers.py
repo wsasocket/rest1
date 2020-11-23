@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-
-from .models import User, UserGroup, UserProfile
+from datetime import datetime
+from .models import User, UserGroup, UserProfile, Jobs, Projects
 
 # 获取 setting.py 中的定义常量
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -97,17 +97,42 @@ class UserGroupSerializer(serializers.ModelSerializer):
 
     # 创建数据记录
     def create(self, validated_data):
-        print('create')
         # 返回 Models的数据
         return UserGroup.objects.create(**validated_data)
 
     # 更新数据记录 使用POST或者PATCH PUT不重要，重要的是要传给这个函数一个instance，否则就会调用create
     def update(self, instance, validated_data):
         # instance 就是数据库查询实例
-        print('update')
-        print(type(instance))
         # instance.id = validated_data.get('id', instance.id)
         instance.name = validated_data.get('name', instance.name)
         instance.level = validated_data.get('level', instance.level)
         instance.save()
         return instance
+
+
+class JobsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Jobs
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        return Jobs.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.description = instance.description + validated_data.get('description', '')
+        instance.deadline = validated_data.get('deadline', instance.deadline)
+        instance.status = validated_data.get('status', instance.status)
+        instance.hours = validated_data.get('hours', instance.hours)
+        instance.update_time = validated_data.get('update_time', datetime.today())
+
+class ProjectsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Projects
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return Projects.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.status = validated_data.get('status', instance.status)
+        instance.deadline = validated_data.get('deadline', instance.deadline)

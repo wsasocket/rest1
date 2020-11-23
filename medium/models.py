@@ -83,6 +83,10 @@ class UserGroup(models.Model):
     name = models.CharField(max_length=128, unique=True)
     level = models.IntegerField(unique=True)
 
+    @classmethod
+    def get_members(cls):
+        pass
+
     class Meta:
         '''
         自定义在数据库中的表名
@@ -119,3 +123,42 @@ class UserProfile(models.Model):
         自定义在数据库中的表名
         '''
         db_table = "profile"
+
+
+class Projects(models.Model):
+    # 项目
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    status_choices = ((1, '立项'), (2, '启动'), (3, '暂停'), (4, '完成'),)
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+    start_time = models.DateField(null=True)
+    deadline = models.DateField(null=True)
+    status = models.IntegerField(choices=status_choices)
+
+    @classmethod
+    def get_members(cls):
+        return Jobs.objects.filter(project=cls).all()
+
+    class Meta:
+        db_table = "projects"
+
+
+class Jobs(models.Model):
+    # 每人的工作
+    status_choices = ((2, '启动'), (3, '暂停'), (4, '完成'),)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    worker = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='worker')
+    project = models.ForeignKey(
+        Projects, on_delete=models.CASCADE, related_name='project')
+
+    brief = models.CharField(max_length=256, blank=False)
+    description = models.CharField(max_length=512, blank=False)
+    start_time = models.DateField(null=True)
+    update_time = models.DateField(null=False)
+    deadline = models.DateField(null=True)
+    status = models.IntegerField(choices=status_choices)
+    hours = models.DecimalField(null=False, max_digits=5, decimal_places=1)
+
+    class Meta:
+        db_table = "jobs"

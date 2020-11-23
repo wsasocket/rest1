@@ -7,15 +7,16 @@ Created on Thu Dec  6 14:04:16 2019
 """
 from rest_framework import status
 from rest_framework.generics import (CreateAPIView, RetrieveAPIView,
-                                     UpdateAPIView)
+                                     UpdateAPIView, ListAPIView)
 from rest_framework.permissions import (AllowAny, BasePermission,
                                         IsAuthenticated)
 from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
-from .models import UserGroup, UserProfile
+from django.contrib.auth.models import User
+from .models import UserGroup, UserProfile, Projects, Jobs
 from .serializers import (UserGroupSerializer, UserLoginSerializer,
-                          UserRegistrationSerializer)
+                          UserRegistrationSerializer, ProjectsSerializer,
+                          JobsSerializer)
 
 
 class MyPermissionClass(BasePermission):
@@ -145,7 +146,7 @@ class UserGroupViewCreate(CreateAPIView):
         serializer.save()
         response = {
             'success': 'True',
-            'status code': status.HTTP_200_OK,
+            'status code': status.HTTP_201_CREATED,
             'message': 'Group Add successfully',
             'name': serializer.data['name'],
             'level': serializer.data['level'],
@@ -154,6 +155,7 @@ class UserGroupViewCreate(CreateAPIView):
 
 
 class UserGroupViewUpdate(UpdateAPIView):
+
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
     serializer_class = UserGroupSerializer
@@ -176,4 +178,71 @@ class UserGroupViewUpdate(UpdateAPIView):
             'name': serializer.data['name'],
             'level': serializer.data['level'],
         }
-        return Response(response, status=status.HTTP_200_OK)
+        return Response(response, status=status.HTTP_202_ACCEPTED)
+
+
+class ProjectView(RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ProjectsSerializer
+    # 枚举所有的组信息
+
+    def get(self, request, **kwarg):
+        # name = request.query_params.get('name', None)
+
+        if 'id' not in kwarg.keys():
+            projects = Projects.objects.all()
+            s = self.serializer_class(projects, many=True)
+        else:
+            projects = Projects.objects.filter(id=kwarg['id']).first()
+            s = self.serializer_class(projects)
+        return Response(s.data, status=status.HTTP_200_OK)
+
+
+class ProjectViewCreate(CreateAPIView):
+    serializer_class = ProjectsSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        response = {
+            'success': 'True',
+            'status code': status.HTTP_201_CREATED,
+            'message': 'Project Create Successfully',
+            'more': serializer.data
+        }
+        return Response(response, status=status.HTTP_201_CREATED)
+
+
+class ProjectViewUpdate(UpdateAPIView):
+    pass
+
+
+class JobListView(ListAPIView):
+    permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
+    authentication_class = JSONWebTokenAuthentication
+
+    def get(self, request, **kwarg):
+        user = request.user
+        print(user)
+        status_code = status.HTTP_200_OK
+        return Response(Jobs.objects.filter(worker=user).all(), status_code)
+
+class JobCreateView(CreateAPIView):
+    permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
+    authentication_class = JSONWebTokenAuthentication
+    serializer_class = JobsSerializer
+    
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        print(serializer.is_valid(raise_exception=True))
+        serializer.validated_data['worker'] = request.user
+        serializer.save()
+        response = {
+            'success': 'True',
+            'status code': status.HTTP_201_CREATED,
+            'message': 'Jobs Create Successfully',
+            'more': serializer.data
+        }
+        return Response(response, status.HTTP_201_CREATED)
