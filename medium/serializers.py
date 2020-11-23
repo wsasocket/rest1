@@ -2,11 +2,12 @@
 Created on Thu Dec  6 11:14:00 2019
 @author: sambhav
 """
-from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
+from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import User, UserProfile, UserGroup
+
+from .models import User, UserGroup, UserProfile
 
 # 获取 setting.py 中的定义常量
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -28,7 +29,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'password', 'profile', 'username', 'is_active',
                   'is_staff', 'first_name', 'last_name')
-        # 设置 password的更多参数
+        # 设置 password的更多参数，write_only 表示输入（写入数据），不能输出
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -80,6 +81,7 @@ class UserLoginSerializer(serializers.Serializer):
                 'User with given email and password does not exists'
             )
         return {
+            # 自定义的结构，不是从Models派生出来的
             'username': user.get_username(),
             'token': jwt_token,
             'email': user.email,
@@ -94,9 +96,10 @@ class UserGroupSerializer(serializers.ModelSerializer):
     # 创建数据记录
     def create(self, validated_data):
         print('create')
+        # 返回 Models的数据
         return UserGroup.objects.create(**validated_data)
 
-    # 更新数据记录
+    # 更新数据记录 使用POST或者PATCH PUT不重要，重要的是要传给这个函数一个instance，否则就会调用create
     def update(self, instance, validated_data):
         # instance 就是数据库查询实例
         print('update')
