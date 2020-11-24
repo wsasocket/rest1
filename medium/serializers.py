@@ -2,12 +2,14 @@
 Created on Thu Dec  6 11:14:00 2019
 @author: sambhav
 """
+from datetime import datetime
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from datetime import datetime
-from .models import User, UserGroup, UserProfile, Jobs, Projects
+
+from .models import JobItem, Jobs, Projects, User, UserGroup, UserProfile
 
 # 获取 setting.py 中的定义常量
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -114,16 +116,29 @@ class JobsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Jobs
         fields = '__all__'
-    
+
     def create(self, validated_data):
         return Jobs.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.description = instance.description + validated_data.get('description', '')
         instance.deadline = validated_data.get('deadline', instance.deadline)
         instance.status = validated_data.get('status', instance.status)
+
+        instance.description = instance.description + \
+            validated_data.get('description', '')
         instance.hours = validated_data.get('hours', instance.hours)
-        instance.update_time = validated_data.get('update_time', datetime.today())
+        instance.update_time = validated_data.get(
+            'update_time', datetime.today())
+
+
+class JobReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobItem
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return JobItem.objects.create(**validated_data)
+
 
 class ProjectsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,106 +1,43 @@
-###
-POST http://127.0.0.1:9001/api/signup
-Content-Type: application/json
-
-{
- "email":"redtomato@gmail.com",
- "password":"123456",
- "profile": {
-        "first_name": "tomato",
-        "last_name": "zou",
-        "phone_number": "1234567891",
-        "age": 11,
-        "gender": "M"
- }
-}
-###
-
-POST http://127.0.0.1:9001/api/signin
-Content-Type: application/json
-
-{
- "email": "ram@gmail.com",
- "password": "123456"
-}
-
 
 ###
-
-GET http://127.0.0.1:8000/api/profile
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODQ0MmRiMzItY2UyZC00NGJhLWEzZjItYWUwOTM2NWZhZGM4IiwidXNlcm5hbWUiOiJyYW1AZ21haWwuY29tIiwiZXhwIjoxNjA4NTEzMDMwLCJlbWFpbCI6InJhbUBnbWFpbC5jb20ifQ.E3RrxEgxKH62yj8oahTKJQ_RrRlHEItBXZwYCtDM5A4
-
-###
-# 使用原生 User
-POST http://127.0.0.1:8000/api/signup
-Content-Type: application/json
-
-{
- "email":"redtomato@gmail.com",
- "password":"123456",
- "first_name": "tomato1",
- "last_name": "zou1",
- "username" :"Shark1",
- "is_active":true,
- "is_staff":false,
- "profile": {
-        "phone_number": "1111111111",
-        "age": 21,
-        "gender": "F",
-        "group":"17584cd06a164e6b8a6a84ac1f045e18"
- }
- 
-}
-
-###
+# 先使用控制台创建一个超级用户，用于创建工作组
+# 使用超级用户登录，获取token
 POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"james",
- "password":"netpower"
+ "username":"admin",
+ "password":"1qazxsw2"
 }
-
-###
-# 用户登录
-POST http://127.0.0.1:8000/api/signin
-Content-Type: application/json
-
-{
- "username":"Shark1",
- "password":"123456"
-}
-
-
-###
-GET http://127.0.0.1:8000/api/profile/
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
-
-###
-
-# 查询group信息
-GET http://127.0.0.1:8000/api/group/17584cd06a164e6b8a6a84ac1f045e18/
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IlNoYXJrMSIsImV4cCI6MTYwODcxOTU4MSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.OI5pIGHR16b4t05T-RMZh2-TANtqIQDQrf27HVYu6Sc
-###
-
-# 查询group信息
-GET http://127.0.0.1:8000/api/group/
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g
 
 
 ###
 # 创建一个group
 POST http://127.0.0.1:8000/api/group/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
 
+# {
+#        "name":"管理组",
+#        "level":100
+# }
 {
-       "name":"管理组",
-       "level":91
+       "name":"安全组",
+       "level":1
 }
+
+
+###
+# 查询group信息
+GET http://127.0.0.1:8000/api/group/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
+
+###
+# 查询group信息
+GET http://127.0.0.1:8000/api/group/702755c4-481a-44a3-879e-7910993d96c3
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
 
 
 ###
@@ -115,21 +52,53 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c
        "level":6
 }
 
-### 
-# 查询项目信息
-GET http://127.0.0.1:8000/api/project/
-Content-Type: application/json
 
 ###
-# 查询单个项目信息
-GET http://127.0.0.1:8000/api/project/e1acd1520d6746c1bb4dee0fe7ed2c35/
+# 使用原生 User模型 注册用户
+POST http://127.0.0.1:8000/api/signup
 Content-Type: application/json
 
+{
+ "email":"redtomato@gmail.com",
+ "password":"123456",
+ "first_name": "Tomato",
+ "last_name": "Green",
+ "username" :"绿番茄",
+ "is_active":true,
+ "is_staff":false,
+ "profile": {
+        "phone_number": "1380123456789",
+        "age": 21,
+        "gender": "F",
+        "group":"702755c4-481a-44a3-879e-7910993d96c3"
+ }
+ 
+}
+
+###
+
+###
+# 用户登录
+POST http://127.0.0.1:8000/api/signin
+Content-Type: application/json
+
+{
+ "username":"绿番茄",
+ "password":"123456"
+}
+
+
+###
+# 查询自己的信息
+GET http://127.0.0.1:8000/api/profile/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
 
 ###
 # 创建新项目
 POST http://127.0.0.1:8000/api/project/create/
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6Ilx1N2VmZlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NzgyOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.kG2gbnby16NZWG7IKKFOu_D-pBbzDSOGtZ3RMzdzRYs
 
 {
        "status":1,
@@ -137,24 +106,57 @@ Content-Type: application/json
        "description":"内容保密"
 }
 
+
+### 
+# 查询项目信息
+GET http://127.0.0.1:8000/api/project/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+
 ###
-# 创建任务信息
+# 查询单个项目信息
+GET http://127.0.0.1:8000/api/project/c5687be6-44a5-4594-a457-2f664324f342/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+
+
+
+###
+# 创建个人工作项目
 POST http://127.0.0.1:8000/api/jobs/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5NDE5LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.IGwVEaiBsV1fzDUX_dMOSUL9l23rSM3f0EhxFN7rpfk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
 
 {
        "worker":2,
-       "update_time":"2020-10-10",
-       "project":"e1acd1520d6746c1bb4dee0fe7ed2c35",
+       "project":"c5687be6-44a5-4594-a457-2f664324f342",
        "brief":"正经工作", 
-       "description":"正经工作，所以要认真完成",
-       "status":2,
-       "hours":1.5
+       "status":2
 }
 
 ###
-# 查询某人的任务信息
+# 查询个人工作项目
 GET http://127.0.0.1:8000/api/jobs/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+
+
+### 
+# 创建周(日)报
+POST  http://127.0.0.1:8000/api/jobs/report/create/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+
+{
+       "description":"干完了，我好难呀！",
+       "update_time":"2020-10-10",
+       "hours":1.5,
+       "jobs":"24ba1ad0-43c8-4544-9e5b-330c22088a1a"
+
+}
+
+###
+# 查询日报信息
+GET http://127.0.0.1:8000/api/jobs/report/24ba1ad0-43c8-4544-9e5b-330c22088a1a/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
