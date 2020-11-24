@@ -209,7 +209,7 @@ class JobListView(ListAPIView):
         user = request.user
         print(user)
         status_code = status.HTTP_200_OK
-        s = self.serializer_class(user.worker, many=True)
+        s = self.serializer_class(user.personal_jobs, many=True)
         return Response(s.data, status_code)
 
 

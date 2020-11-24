@@ -83,9 +83,9 @@ class Jobs(models.Model):
     # 这个状态仅仅与是自己工作内容相关，与project无关
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     worker = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='worker')
+        User, on_delete=models.CASCADE, related_name='personal_jobs')
     project = models.ForeignKey(
-        Projects, on_delete=models.CASCADE, related_name='project')
+        Projects, on_delete=models.CASCADE, related_name='project_relate_jobs')
     brief = models.CharField(max_length=256, blank=False)
     start_time = models.DateField(null=True)
     deadline = models.DateField(null=True)
@@ -99,7 +99,7 @@ class JobItem(models.Model):
     # 工作的详细报告
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     jobs = models.ForeignKey(
-        Jobs, on_delete=models.CASCADE, related_name='jobs')
+        Jobs, on_delete=models.CASCADE, related_name='report')
     description = models.CharField(max_length=512, blank=False)
     update_time = models.DateField(null=False)
     audit = models.BooleanField(default=False)
