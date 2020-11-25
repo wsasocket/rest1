@@ -30,6 +30,4 @@ class MustStuffGroupPermission(BasePermission):
     def has_permission(self, request, view):
         # class 方式
         print(request)
-        if request.user.profile.group.level > 90:
-            return True
-        return False
+        return request.user.profile.group.level == 100

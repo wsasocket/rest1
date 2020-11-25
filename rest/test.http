@@ -1,57 +1,12 @@
-
-###
-# 先使用控制台创建一个超级用户，用于创建工作组
-# 使用超级用户登录，获取token
-POST http://127.0.0.1:8000/api/signin
-Content-Type: application/json
-
-{
- "username":"admin",
- "password":"1qazxsw2"
-}
-
-
-###
-# 创建一个group
-POST http://127.0.0.1:8000/api/group/create/
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
-
-# {
-#        "name":"管理组",
-#        "level":100
-# }
-{
-       "name":"安全组",
-       "level":1
-}
-
-
 ###
 # 查询group信息
 GET http://127.0.0.1:8000/api/group/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
 
 ###
 # 查询group信息
-GET http://127.0.0.1:8000/api/group/702755c4-481a-44a3-879e-7910993d96c3
+GET http://127.0.0.1:8000/api/group/2a9230d7-96cd-447d-b6d0-e987901d0ebb/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjA4Nzc1MzI5LCJlbWFpbCI6ImFkbWluQGNjLmNvbSJ9.l9Ydr_GOcZiYvmUJG3Fv12lhRToAj8pC8A4RgLCQREs
-
-
-###
-# 修改组信息
-PATCH http://127.0.0.1:8000/api/group/update/c357110e1a974907bfc91d5612a188e2/
-Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImphbWVzIiwiZXhwIjoxNjA4NzE5Mjg4LCJlbWFpbCI6ImphbXNAY2MuY29tIn0.uUVlkca4xm29BUS-pek0wm92hz7phhTGtee5Eunp13g
-
-{
-      
-       "name":"管理组6",
-       "level":6
-}
-
 
 ###
 # 使用原生 User模型 注册用户
@@ -59,23 +14,20 @@ POST http://127.0.0.1:8000/api/signup
 Content-Type: application/json
 
 {
- "email":"redtomato@gmail.com",
- "password":"123456",
- "first_name": "Tomato",
- "last_name": "Green",
- "username" :"绿番茄",
- "is_active":true,
- "is_staff":false,
- "profile": {
-        "phone_number": "1380123456789",
-        "age": 21,
+       "user":{
+              "username" :"顾耀东",
+              "email":"guyd@gmail.com",
+              "password":"123456",
+              "first_name": "south",
+              "last_name": "Gu",
+              "is_active":true,
+              "is_staff":false
+       },
+        "phone_number": "1390123456788",
         "gender": "F",
-        "group":"702755c4-481a-44a3-879e-7910993d96c3"
- }
- 
+        "group":"6915c3b3-3676-4405-97a2-9e6efcaa9f67",
+        "is_group_leader":true
 }
-
-###
 
 ###
 # 用户登录
@@ -83,27 +35,48 @@ POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"绿番茄",
+ "username":"顾耀东",
  "password":"123456"
 }
 
 
 ###
 # 查询自己的信息
+# 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+
+###
+# 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
+# 如果是group leader 可以调出全组人员的信息
+# 需要先登录然后获取登录Token
+GET http://127.0.0.1:8000/api/profile/all/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+
+###
+# 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
+# 如果是group leader 可以调出全组人员的信息
+# 需要先登录然后获取登录Token
+GET http://127.0.0.1:8000/api/profile/9ee8c3a2-f528-4bad-bd2a-d5ecbbed2578/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+
+
 
 ###
 # 创建新项目
 POST http://127.0.0.1:8000/api/project/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c2VybmFtZSI6Ilx1N2VmZlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NzgyOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.kG2gbnby16NZWG7IKKFOu_D-pBbzDSOGtZ3RMzdzRYs
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNywidXNlcm5hbWUiOiJcdTk4N2VcdTgwMDBcdTRlMWMiLCJleHAiOjE2MDg4ODcyMzQsImVtYWlsIjoiZ3V5ZEBnbWFpbC5jb20ifQ.K4hnSF0vRt6dozZ5y2HcJ_zEpIcm4G1gHZ-IJK0a9q0
 
 {
        "status":1,
-       "name":"花花公子5.0项目",
-       "description":"内容保密"
+       "name":"男人装2.0项目",
+       "description":"内容保密",
+       "start_time":"2020-11-11",
+       "deadline": "2021-01-01"
 }
 
 
@@ -111,13 +84,13 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1LCJ1c
 # 查询项目信息
 GET http://127.0.0.1:8000/api/project/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
 ###
 # 查询单个项目信息
-GET http://127.0.0.1:8000/api/project/c5687be6-44a5-4594-a457-2f664324f342/
+GET http://127.0.0.1:8000/api/project/b8502d72-fadc-4fc4-acad-c8603a512c65/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
 
 

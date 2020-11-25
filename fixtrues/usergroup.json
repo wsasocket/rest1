@@ -1,0 +1,50 @@
+[
+{
+    "model": "medium.usergroup",
+    "pk": "2a9230d7-96cd-447d-b6d0-e987901d0ebb",
+    "fields": {
+        "name": "安全组",
+        "level": 1
+    }
+},
+{
+    "model": "medium.usergroup",
+    "pk": "6915c3b3-3676-4405-97a2-9e6efcaa9f67",
+    "fields": {
+        "name": "管理组",
+        "level": 100
+    }
+},
+{
+    "model": "medium.usergroup",
+    "pk": "85968e2e-f9ad-4049-958d-39b1b0b35fdd",
+    "fields": {
+        "name": "前端组",
+        "level": 1
+    }
+},
+{
+    "model": "medium.usergroup",
+    "pk": "b4a965ed-a474-4db5-8f29-b1769c8c9755",
+    "fields": {
+        "name": "平台组",
+        "level": 1
+    }
+},
+{
+    "model": "medium.usergroup",
+    "pk": "f2bfd615-d87f-4c9c-a396-331aa07b4188",
+    "fields": {
+        "name": "测试部",
+        "level": 1
+    }
+},
+{
+    "model": "medium.usergroup",
+    "pk": "fcb260f5-3033-4a7e-843a-881d2b48554c",
+    "fields": {
+        "name": "应用组",
+        "level": 1
+    }
+}
+]

@@ -5,11 +5,11 @@ Created on Thu Dec  6 11:14:00 2019
 from datetime import datetime
 
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import update_last_login
+from django.contrib.auth.models import User, update_last_login
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 
-from .models import JobItem, Jobs, Projects, User, UserGroup, UserProfile
+from .models import PersonalTasks, Projects, Reports, UserGroup, UserProfile
 
 # 获取 setting.py 中的定义常量
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
@@ -19,37 +19,10 @@ JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = UserProfile
-        fields = ('phone_number', 'age', 'gender', 'group')
-
-
-class UserRegistrationSerializer(serializers.ModelSerializer):
-
-    profile = UserSerializer(required=False)
-
-    class Meta:
         model = User
-        fields = ('email', 'password', 'profile', 'username', 'is_active',
-                  'is_staff', 'first_name', 'last_name')
-        # 设置 password的更多参数，write_only 表示输入（写入数据），不能输出
+        fields = ('username', 'first_name', 'last_name', 'password',
+                  'email', 'is_active', 'date_joined', 'last_login')
         extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        # 从字典中pop出profile字段的数据作为生成profile需要的数据
-        profile_data = validated_data.pop('profile')
-        # pop profile后的数据用于创建一个用户
-        user = User.objects.create_user(**validated_data)
-        UserProfile.objects.create(
-            user=user,
-            # first_name=profile_data['first_name'],
-            # last_name=profile_data['last_name'],
-            phone_number=profile_data['phone_number'],
-            age=profile_data['age'],
-            gender=profile_data['gender'],
-            # profile中的外键指向group，只要提交group的pk就能自动获取group实例
-            group=profile_data['group']
-        )
-        return user
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -95,7 +68,7 @@ class UserLoginSerializer(serializers.Serializer):
 class UserGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGroup
-        fields = '__all__'
+        fields = ('id', 'name', 'level',)
 
     # 创建数据记录
     def create(self, validated_data):
@@ -112,9 +85,52 @@ class UserGroupSerializer(serializers.ModelSerializer):
         return instance
 
 
+class UserGroupAtCreateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserGroup
+        fields = ('id',)
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+
+    user = UserSerializer(required=False)
+    group = serializers.UUIDField(required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'group', 'phone_number', 'gender', 'group')
+
+    def create(self, validated_data):
+        # 从字典中pop出user字段的数据作为生成user需要的数据
+        user_data = validated_data.pop('user')
+        user = User.objects.create_user(**user_data)
+        # 余下的数据用于创建一个用户的profile
+        group_instance = UserGroup.objects.filter(
+            id=validated_data['group']).first()
+        UserProfile.objects.create(
+            user=user,
+            phone_number=validated_data['phone_number'],
+            gender=validated_data['gender'],
+            # profile中的外键指向group，只要提交group的pk就能自动获取group实例
+            group=group_instance
+        )
+        return user
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    # 两个外键，如果需要详细信息需要增加单独的序列化模型，否则只有pk
+    user = UserSerializer()
+    group = UserGroupSerializer()
+    group.Meta.fields = ('name', 'level',)
+
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'group', "phone_number", 'gender', 'is_group_leader')
+
+
 class JobsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Jobs
+        model = PersonalTasks
         fields = '__all__'
 
     def create(self, validated_data):
@@ -133,7 +149,7 @@ class JobsSerializer(serializers.ModelSerializer):
 
 class JobReportSerializer(serializers.ModelSerializer):
     class Meta:
-        model = JobItem
+        model = Reports
         fields = '__all__'
 
     def create(self, validated_data):
