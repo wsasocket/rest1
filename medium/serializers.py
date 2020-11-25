@@ -128,13 +128,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'group', "phone_number", 'gender', 'is_group_leader')
 
 
-class JobsSerializer(serializers.ModelSerializer):
+class PersonalTasksSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalTasks
         fields = '__all__'
 
     def create(self, validated_data):
-        return Jobs.objects.create(**validated_data)
+        return PersonalTasks.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.deadline = validated_data.get('deadline', instance.deadline)

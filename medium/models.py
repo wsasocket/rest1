@@ -47,7 +47,7 @@ class Projects(models.Model):
     status_choices = ((1, '立项'), (2, '启动'), (3, '暂停'), (4, '完成'), (5, '废弃'),)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # 项目名称
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, unique=True)
     # 项目描述
     description = models.CharField(max_length=256)
     # 开始时间

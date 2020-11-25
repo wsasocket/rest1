@@ -78,7 +78,9 @@ class UserProfileView(ListAPIView):
             return Response(s.data, status=status.HTTP_200_OK)
         if option is not None:
             # UUID
-            if not request.user.profile.is_group_leader:
+            print(request.user.profile.is_group_leader)
+            print(request.user.profile.group.level == 100)
+            if not any((request.user.profile.is_group_leader, (request.user.profile.group.level == 100))):
                 return Response({'detail': '你不是Group Leader，无权查看人员信息'}, status=status.HTTP_403_FORBIDDEN)
             select_user = UserProfile.objects.filter(id=option).first()
             if select_user is None:
@@ -210,11 +212,7 @@ class ProjectViewCreate(CreateAPIView):
         return Response(response, status=status.HTTP_201_CREATED)
 
 
-class ProjectViewUpdate(UpdateAPIView):
-    pass
-
-
-class JobListView(ListAPIView):
+class PersonalTasksListView(ListAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
     serializer_class = JobsSerializer
@@ -227,7 +225,7 @@ class JobListView(ListAPIView):
         return Response(s.data, status_code)
 
 
-class JobCreateView(CreateAPIView):
+class PersonalTasksCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
     serializer_class = JobsSerializer

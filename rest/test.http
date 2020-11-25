@@ -25,8 +25,7 @@ Content-Type: application/json
        },
         "phone_number": "1390123456788",
         "gender": "F",
-        "group":"6915c3b3-3676-4405-97a2-9e6efcaa9f67",
-        "is_group_leader":true
+        "group":"6915c3b3-3676-4405-97a2-9e6efcaa9f67"
 }
 
 ###
@@ -45,7 +44,7 @@ Content-Type: application/json
 # 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5NDgyOCwiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.lcApv4-GF-8Qk4eEXDmKA2lUclrDGVUEOZhJ41OHwOw
 
 ###
 # 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
@@ -53,7 +52,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 # 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/all/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5NDgyOCwiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.lcApv4-GF-8Qk4eEXDmKA2lUclrDGVUEOZhJ41OHwOw
 
 ###
 # 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
@@ -61,7 +60,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 # 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/9ee8c3a2-f528-4bad-bd2a-d5ecbbed2578/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5NDgyOCwiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.lcApv4-GF-8Qk4eEXDmKA2lUclrDGVUEOZhJ41OHwOw
 
 
 
@@ -69,7 +68,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 # 创建新项目
 POST http://127.0.0.1:8000/api/project/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNywidXNlcm5hbWUiOiJcdTk4N2VcdTgwMDBcdTRlMWMiLCJleHAiOjE2MDg4ODcyMzQsImVtYWlsIjoiZ3V5ZEBnbWFpbC5jb20ifQ.K4hnSF0vRt6dozZ5y2HcJ_zEpIcm4G1gHZ-IJK0a9q0
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5OTIxNywiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.V_AlwfdFMss0GRXs1U98fbNt7xFS7ju2odqp4secFCA
 
 {
        "status":1,
@@ -84,7 +83,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNywid
 # 查询项目信息
 GET http://127.0.0.1:8000/api/project/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5OTIxNywiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.V_AlwfdFMss0GRXs1U98fbNt7xFS7ju2odqp4secFCA
 
 ###
 # 查询单个项目信息
