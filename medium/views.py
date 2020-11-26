@@ -5,7 +5,10 @@ from django.shortcuts import render
 Created on Thu Dec  6 14:04:16 2019
 @author: sambhav
 """
+from datetime import datetime
+
 from django.contrib.auth.models import User
+from django.db import models
 from rest_framework import status
 from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      RetrieveAPIView, UpdateAPIView)
@@ -16,10 +19,11 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import PersonalTasks, Projects, Reports, UserGroup, UserProfile
 from .permissions import MustStuffGroupPermission, NeedLeaderPermission
-from .serializers import (JobReportSerializer, JobsSerializer,
-                          ProjectsSerializer, UserGroupSerializer,
-                          UserLoginSerializer, UserProfileSerializer,
-                          UserRegistrationSerializer, UserSerializer)
+from .serializers import (PersonalTasksSerializer, ProjectsSerializer,
+                          ReportCreateSerializer, ReportSerializer,
+                          UserGroupSerializer, UserLoginSerializer,
+                          UserProfileSerializer, UserRegistrationSerializer,
+                          UserSerializer)
 
 
 class UserRegistrationView(CreateAPIView):
@@ -70,16 +74,20 @@ class UserProfileView(ListAPIView):
     def get(self, request, **kwargs):
         # 如果有option 参数先验证基本的权限，再根据参数性质进行检索
         option = kwargs.get('option', None)
+        select_users = None
         if option == 'all':
             if request.user.profile.group.level != 100:
-                return Response({'detail': '你不是管理组成员，无权查看所有人员信息'}, status=status.HTTP_403_FORBIDDEN)
-            select_users = UserProfile.objects.all()
+                if request.user.profile.is_group_leader:
+                    select_users = UserProfile.objects.filter(
+                        group=request.user.profile.group).all()
+                else:
+                    return Response({'detail': '你不是管理组成员也不是Group Leader，无权查看所属人员信息'}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                select_users = UserProfile.objects.all()
             s = self.serializer_class(select_users, many=all)
             return Response(s.data, status=status.HTTP_200_OK)
         if option is not None:
             # UUID
-            print(request.user.profile.is_group_leader)
-            print(request.user.profile.group.level == 100)
             if not any((request.user.profile.is_group_leader, (request.user.profile.group.level == 100))):
                 return Response({'detail': '你不是Group Leader，无权查看人员信息'}, status=status.HTTP_403_FORBIDDEN)
             select_user = UserProfile.objects.filter(id=option).first()
@@ -129,7 +137,7 @@ class UserGroupView(RetrieveAPIView):
         return Response(s.data, status=status.HTTP_200_OK)
 
 
-class UserGroupViewCreate(CreateAPIView):
+class UserGroupCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
     serializer_class = UserGroupSerializer
@@ -149,7 +157,7 @@ class UserGroupViewCreate(CreateAPIView):
         return Response(response, status=status.HTTP_201_CREATED)
 
 
-class UserGroupViewUpdate(UpdateAPIView):
+class UserGroupUpdateView(UpdateAPIView):
 
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
@@ -194,7 +202,7 @@ class ProjectView(RetrieveAPIView):
         return Response(s.data, status=status.HTTP_200_OK)
 
 
-class ProjectViewCreate(CreateAPIView):
+class ProjectCreateView(CreateAPIView):
     serializer_class = ProjectsSerializer
     authentication_class = JSONWebTokenAuthentication
     permission_classes = (IsAuthenticated, MustStuffGroupPermission)
@@ -215,20 +223,31 @@ class ProjectViewCreate(CreateAPIView):
 class PersonalTasksListView(ListAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
-    serializer_class = JobsSerializer
+    serializer_class = PersonalTasksSerializer
 
-    def get(self, request, **kwarg):
+    def get(self, request, **kwargs):
+        year = datetime.today().year
+        st = kwargs.get('st', '{}-01-01'.format(year))
+        et = kwargs.get('et', datetime.today().strftime('%Y-%m-%d'))
+        option = kwargs.get('option', 'activate')
+
         user = request.user
-        print(user)
+        qs = user.personal_task.filter(
+            start_time__gte=st).filter(start_time__lte=et)
+        res = None
+        if option == 'all':
+            res = qs.all()
+        else:
+            res = qs.filter(models.Q(status=2) | models.Q(status=3)).all()
         status_code = status.HTTP_200_OK
-        s = self.serializer_class(user.personal_jobs, many=True)
+        s = self.serializer_class(res, many=True)
         return Response(s.data, status_code)
 
 
 class PersonalTasksCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
-    serializer_class = JobsSerializer
+    serializer_class = PersonalTasksSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -246,28 +265,37 @@ class PersonalTasksCreateView(CreateAPIView):
         return Response(response, status.HTTP_201_CREATED)
 
 
-class JobReportListView(ListAPIView):
+class ReportListView(ListAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
-    serializer_class = JobReportSerializer
+    serializer_class = ReportSerializer
 
     def get(self, request, **kwargs):
-        job_id = kwargs['job_id']
-        user = request.user
-        rec = JobItem.objects.filter(jobs__id=job_id).all()
+        tasks_id = kwargs.get('tasks_id', None)
+        userprofile_id = kwargs.get('userprofile_id', None)
+        if userprofile_id is None:
+            userprofile_id = request.user.profile.id
+
+        user = User.objects.filter(profile.id=userprofile_id).first()
+        if not user:
+            return Response({'detail': '用户不存在'}, status.HTTP_400_BAD_REQUEST)
+
+        rec = Reports.objects.filter(id=report_id).all()
         s = self.serializer_class(rec, many=True)
         status_code = status.HTTP_200_OK
         return Response(s.data, status_code)
 
 
-class JobReportCreateView(CreateAPIView):
+class ReportCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
     authentication_class = JSONWebTokenAuthentication
-    serializer_class = JobReportSerializer
+    serializer_class = ReportCreateSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         print(serializer.is_valid(raise_exception=True))
+        serializer.validated_data['update_time'] = datetime.today().strftime(
+            '%Y-%m-%d')
         serializer.save()
         response = {
             'success': 'True',

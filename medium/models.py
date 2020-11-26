@@ -73,7 +73,7 @@ class PersonalTasks(models.Model):
     # 任务简介
     brief = models.CharField(max_length=256, blank=False)
     # 任务开始时间，可以为空
-    start_time = models.DateField(null=True)
+    start_time = models.DateField(null=False)
     # 目标完成时间，可以为空
     deadline = models.DateField(null=True)
     # 当前状态

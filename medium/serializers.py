@@ -131,29 +131,36 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class PersonalTasksSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalTasks
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('worker',)  # 这个信息可以从Token中获取
 
     def create(self, validated_data):
         return PersonalTasks.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        instance.deadline = validated_data.get('deadline', instance.deadline)
-        instance.status = validated_data.get('status', instance.status)
+    # def update(self, instance, validated_data):
+    #     instance.deadline = validated_data.get('deadline', instance.deadline)
+    #     instance.status = validated_data.get('status', instance.status)
 
-        instance.description = instance.description + \
-            validated_data.get('description', '')
-        instance.hours = validated_data.get('hours', instance.hours)
-        instance.update_time = validated_data.get(
-            'update_time', datetime.today())
+    #     instance.description = instance.description + \
+    #         validated_data.get('description', '')
+    #     instance.hours = validated_data.get('hours', instance.hours)
+    #     instance.update_time = validated_data.get(
+    #         'update_time', datetime.today())
 
 
-class JobReportSerializer(serializers.ModelSerializer):
+class ReportCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reports
+        exclude = ('update_time',)
+
+    def create(self, validated_data):
+        return Reports.objects.create(**validated_data)
+
+
+class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
         fields = '__all__'
-
-    def create(self, validated_data):
-        return JobItem.objects.create(**validated_data)
 
 
 class ProjectsSerializer(serializers.ModelSerializer):

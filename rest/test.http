@@ -34,7 +34,7 @@ POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"顾耀东",
+ "username":"海大富",
  "password":"123456"
 }
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 # 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5NDgyOCwiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.lcApv4-GF-8Qk4eEXDmKA2lUclrDGVUEOZhJ41OHwOw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg5NDQwNzMsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.pQg3nrAaoOfwEQ8VcVCkVIgDBUNm70203lyZvEdCeD4
 
 ###
 # 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
@@ -52,7 +52,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c
 # 需要先登录然后获取登录Token
 GET http://127.0.0.1:8000/api/profile/all/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5NDgyOCwiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.lcApv4-GF-8Qk4eEXDmKA2lUclrDGVUEOZhJ41OHwOw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg5NDQwNzMsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.pQg3nrAaoOfwEQ8VcVCkVIgDBUNm70203lyZvEdCeD4
 
 ###
 # 查询用户的信息，如果是管理组的人员可以调出全部人员信息，
@@ -95,40 +95,38 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 
 ###
 # 创建个人工作项目
-POST http://127.0.0.1:8000/api/jobs/create/
+POST http://127.0.0.1:8000/api/tasks/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
 {
-       "worker":2,
-       "project":"c5687be6-44a5-4594-a457-2f664324f342",
-       "brief":"正经工作", 
+       "project":"b8502d72-fadc-4fc4-acad-c8603a512c65",
+       "brief":"正经工作,千万不能想歪了", 
        "status":2
 }
 
 ###
 # 查询个人工作项目
-GET http://127.0.0.1:8000/api/jobs/
+GET http://127.0.0.1:8000/api/tasks/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
 
 ### 
 # 创建周(日)报
-POST  http://127.0.0.1:8000/api/jobs/report/create/
+POST  http://127.0.0.1:8000/api/tasks/report/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
 {
        "description":"干完了，我好难呀！",
-       "update_time":"2020-10-10",
-       "hours":1.5,
-       "jobs":"24ba1ad0-43c8-4544-9e5b-330c22088a1a"
+       "hours":40,
+       "tasks":"a4c3495c-32e7-4c56-a307-bc5635a67930"
 
 }
 
 ###
 # 查询日报信息
-GET http://127.0.0.1:8000/api/jobs/report/24ba1ad0-43c8-4544-9e5b-330c22088a1a/
+GET http://127.0.0.1:8000/api/tasks/report/e210a701-17a0-4a30-a38e-e719951e4c22/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJ1c2VybmFtZSI6Ilx1N2VhMlx1NzU2YVx1ODMwNCIsImV4cCI6MTYwODc3NTkxOSwiZW1haWwiOiJyZWR0b21hdG9AZ21haWwuY29tIn0.53Ix2f0Lmj201ixpJ-Grp-Wv_wiVSTJgK2blnQ49eQE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
