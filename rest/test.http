@@ -34,10 +34,20 @@ POST http://127.0.0.1:8000/api/signin
 Content-Type: application/json
 
 {
- "username":"海大富",
- "password":"123456"
+ "username":"苏大强",
+ "password":"654321"
 }
 
+###
+# 更新用户的口令
+
+PUT http://127.0.0.1:8000/api/setpassword/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNiwidXNlcm5hbWUiOiJcdTgyY2ZcdTU5MjdcdTVmM2EiLCJleHAiOjE2MDkwMzkzODgsImVtYWlsIjoic3VxcUBnbWFpbC5jb20ifQ.E7jSPDfISPVLVQcI6xnkI4oERHzX5d1-5K4ztJ15KJQ
+
+{
+       "password":"654321"
+}
 
 ###
 # 查询自己的信息
@@ -101,8 +111,9 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 
 {
        "project":"b8502d72-fadc-4fc4-acad-c8603a512c65",
-       "brief":"正经工作,千万不能想歪了", 
-       "status":2
+       "brief":"正经工作,千万不能想歪了,hahaha", 
+       "status":2,
+       "start_time":"2020-11-27"
 }
 
 ###
@@ -114,7 +125,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 
 ### 
 # 创建周(日)报
-POST  http://127.0.0.1:8000/api/tasks/report/create/
+POST  http://127.0.0.1:8000/api/report/create/
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
 
@@ -127,6 +138,6 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwid
 
 ###
 # 查询日报信息
-GET http://127.0.0.1:8000/api/tasks/report/e210a701-17a0-4a30-a38e-e719951e4c22/
+GET http://127.0.0.1:8000/api/report/a4c3495c-32e7-4c56-a307-bc5635a67930/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJcdTZkNzdcdTU5MjdcdTViY2MiLCJleHAiOjE2MDg4ODUyOTgsImVtYWlsIjoiSGFhYUBnbWFpbC5jb20ifQ.Flb1n5VtIiy-EA6NLKou6oIbAss1pyER_4nb84jZC6k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNiwidXNlcm5hbWUiOiJcdTgyY2ZcdTU5MjdcdTVmM2EiLCJleHAiOjE2MDkwMzkzODgsImVtYWlsIjoic3VxcUBnbWFpbC5jb20ifQ.E7jSPDfISPVLVQcI6xnkI4oERHzX5d1-5K4ztJ15KJQ

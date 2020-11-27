@@ -148,6 +148,15 @@ class PersonalTasksSerializer(serializers.ModelSerializer):
     #         'update_time', datetime.today())
 
 
+class UserSetPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(write_only=True)
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
+
+
 class ReportCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports

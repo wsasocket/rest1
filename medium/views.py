@@ -23,7 +23,7 @@ from .serializers import (PersonalTasksSerializer, ProjectsSerializer,
                           ReportCreateSerializer, ReportSerializer,
                           UserGroupSerializer, UserLoginSerializer,
                           UserProfileSerializer, UserRegistrationSerializer,
-                          UserSerializer)
+                          UserSerializer, UserSetPasswordSerializer)
 
 
 class UserRegistrationView(CreateAPIView):
@@ -63,6 +63,44 @@ class UserLoginView(RetrieveAPIView):
         }
         status_code = status.HTTP_200_OK
         return Response(response, status=status_code)
+
+
+class UserPasswordSetView(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)  # 必须验证授权的用户
+    authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
+    serializer_class = UserSetPasswordSerializer
+
+    def put(self, request, **kwargs):
+        user = request.user
+        profile_id = kwargs.get('id', None)
+        result = None
+        s = None
+        u = None
+        if user.profile.group.level == 100:
+            # 管理员改用户密码
+            target_user = UserProfile.objects.filter(
+                id=profile_id).first().user
+            s = self.serializer_class(target_user, data=request.data)
+            u = target_user
+        elif user.profile.is_group_leader:
+            # leader可以重置自己和自己组成员的数据
+            target_user = UserProfile.objects.filter(
+                id=profile_id).first().user
+            if user.profile.group.id == target_user.profile.group.id:
+                s = self.serializer_class(target_user, data=request.data)
+                u = target_user
+            else:
+                return Response({'detail': '你无权重置指定用户的Password'}, status=status.HTTP_403_FORBIDDEN)
+        else:
+            # 一般用户处理自己的passwd
+            s = self.serializer_class(user, data=request.data)
+            s.is_valid()
+            u = user
+        if isinstance(s.save(), User):
+            result = {'result': '{}更新口令成功'.format(u.username)}
+        else:
+            result = {'result': '{}更新口令失败'.format(u.username)}
+        return Response(result, status=status.HTTP_200_OK)
 
 
 class UserProfileView(ListAPIView):
@@ -276,11 +314,13 @@ class ReportListView(ListAPIView):
         if userprofile_id is None:
             userprofile_id = request.user.profile.id
 
-        user = User.objects.filter(profile.id=userprofile_id).first()
+        user = User.objects.filter(profile__id=userprofile_id).first()
         if not user:
             return Response({'detail': '用户不存在'}, status.HTTP_400_BAD_REQUEST)
-
-        rec = Reports.objects.filter(id=report_id).all()
+        # TODO 应当根据用户的项目列表返回用户的报告
+        rec = Reports.objects.filter(
+            tasks__id=tasks_id).filter(tasks__worker=user).all()
+        # rec = Reports.objects.all()
         s = self.serializer_class(rec, many=True)
         status_code = status.HTTP_200_OK
         return Response(s.data, status_code)
@@ -294,8 +334,9 @@ class ReportCreateView(CreateAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         print(serializer.is_valid(raise_exception=True))
-        serializer.validated_data['update_time'] = datetime.today().strftime(
-            '%Y-%m-%d')
+        if serializer.validated_data['update_time'] == '':
+            serializer.validated_data['update_time'] = datetime.today().strftime(
+                '%Y-%m-%d')
         serializer.save()
         response = {
             'success': 'True',
