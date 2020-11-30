@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ###
 # 使用原生 User模型 注册用户
-POST http://127.0.0.1:8000/api/signup
+POST http://127.0.0.1:8000/api/signup/
 Content-Type: application/json
 
 {

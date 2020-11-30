@@ -33,6 +33,14 @@
 },
 {
     "model": "medium.usergroup",
+    "pk": "cb8fe3d5-113c-45cc-879a-ef3e921f201e",
+    "fields": {
+        "name": "网络组",
+        "level": 1
+    }
+},
+{
+    "model": "medium.usergroup",
     "pk": "f2bfd615-d87f-4c9c-a396-331aa07b4188",
     "fields": {
         "name": "测试部",

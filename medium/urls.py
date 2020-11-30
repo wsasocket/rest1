@@ -7,9 +7,9 @@ from .views import (PersonalTasksCreateView, PersonalTasksListView,
 
 urlpatterns = [
     # 用户注册
-    url(r'^signup', UserRegistrationView.as_view()),
+    url(r'^signup/', UserRegistrationView.as_view()),
     # 用户登录
-    url(r'^signin', UserLoginView.as_view()),
+    url(r'^signin/', UserLoginView.as_view()),
     # 更新用户密码，如果是个人有效token情况下，修改密码是修改自己的，否则只能让管理组成员修改指定用户密码
     url(r'^setpassword/(?P<id>[\w\-]{36})?/?$', UserPasswordSetView.as_view()),
     # 查询组信息，如果没有id就是查询全部组信息
