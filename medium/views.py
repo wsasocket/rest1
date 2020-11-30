@@ -175,51 +175,51 @@ class UserGroupView(RetrieveAPIView):
         return Response(s.data, status=status.HTTP_200_OK)
 
 
-class UserGroupCreateView(CreateAPIView):
-    permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
-    authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
-    serializer_class = UserGroupSerializer
-    # 增加新的组
+# class UserGroupCreateView(CreateAPIView):
+#     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
+#     authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
+#     serializer_class = UserGroupSerializer
+#     # 增加新的组
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        response = {
-            'success': 'True',
-            'status code': status.HTTP_201_CREATED,
-            'message': 'Group Add successfully',
-            'name': serializer.data['name'],
-            'level': serializer.data['level'],
-        }
-        return Response(response, status=status.HTTP_201_CREATED)
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         response = {
+#             'success': 'True',
+#             'status code': status.HTTP_201_CREATED,
+#             'message': 'Group Add successfully',
+#             'name': serializer.data['name'],
+#             'level': serializer.data['level'],
+#         }
+#         return Response(response, status=status.HTTP_201_CREATED)
 
 
-class UserGroupUpdateView(UpdateAPIView):
+# class UserGroupUpdateView(UpdateAPIView):
 
-    permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
-    authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
-    serializer_class = UserGroupSerializer
-    # 在 url.py中设置正则名为 一致
-    # 就是说通过url设置查询的关键字 ，这个框架自动化的地方在于把 lookup_field queryset
-    # 设置好会自动过滤出需要的数据set，在serializer类中可以修改保存
-    # lookup_field = 'id'  # 注意在请求url中的正则表达式
-    # queryset = UserGroup.objects.all()
-    # 修改组的信息
+#     permission_classes = (IsAuthenticated, )  # 必须验证授权的用户
+#     authentication_class = JSONWebTokenAuthentication  # 使用这个方法验证授权信息
+#     serializer_class = UserGroupSerializer
+#     # 在 url.py中设置正则名为 一致
+#     # 就是说通过url设置查询的关键字 ，这个框架自动化的地方在于把 lookup_field queryset
+#     # 设置好会自动过滤出需要的数据set，在serializer类中可以修改保存
+#     # lookup_field = 'id'  # 注意在请求url中的正则表达式
+#     # queryset = UserGroup.objects.all()
+#     # 修改组的信息
 
-    def patch(self, request, **kwargs):
-        instance = UserGroup.objects.filter(id=kwargs['id']).first()
-        serializer = self.serializer_class(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        response = {
-            'success': 'True',
-            'status code': status.HTTP_200_OK,
-            'message': 'Group Modify successfully',
-            'name': serializer.data['name'],
-            'level': serializer.data['level'],
-        }
-        return Response(response, status=status.HTTP_202_ACCEPTED)
+#     def patch(self, request, **kwargs):
+#         instance = UserGroup.objects.filter(id=kwargs['id']).first()
+#         serializer = self.serializer_class(instance, data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         response = {
+#             'success': 'True',
+#             'status code': status.HTTP_200_OK,
+#             'message': 'Group Modify successfully',
+#             'name': serializer.data['name'],
+#             'level': serializer.data['level'],
+#         }
+#         return Response(response, status=status.HTTP_202_ACCEPTED)
 
 
 class ProjectView(RetrieveAPIView):
@@ -268,8 +268,22 @@ class PersonalTasksListView(ListAPIView):
         st = kwargs.get('st', '{}-01-01'.format(year))
         et = kwargs.get('et', datetime.today().strftime('%Y-%m-%d'))
         option = kwargs.get('option', 'activate')
+        profile_id = kwargs.get('id', None)
+        user = None
 
-        user = request.user
+        if profile_id is None:
+            user = request.user
+        else:
+            user = User.objects.filter(Profile__id=profile_id).first()
+
+        if user == request.user:
+            pass
+        else:
+            if request.user.profile.is_group_leader:
+                if request.user.profile.group.id != user.profile.group.id:
+                    return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
         qs = user.personal_task.filter(
             start_time__gte=st).filter(start_time__lte=et)
         res = None
@@ -313,6 +327,13 @@ class ReportListView(ListAPIView):
         userprofile_id = kwargs.get('userprofile_id', None)
         if userprofile_id is None:
             userprofile_id = request.user.profile.id
+        else:
+            if request.user.profile.is_group_leader:
+                if request.user.profile.group.id != Profile.objects.filter(profile__id=userprofile_id).first().group.id:
+                    # 是groupleader 并且是相同组
+                    return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
 
         user = User.objects.filter(profile__id=userprofile_id).first()
         if not user:

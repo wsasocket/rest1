@@ -35,7 +35,7 @@ Content-Type: application/json
 
 {
  "username":"苏大强",
- "password":"654321"
+ "password":"10086"
 }
 
 ###
@@ -46,7 +46,7 @@ Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNiwidXNlcm5hbWUiOiJcdTgyY2ZcdTU5MjdcdTVmM2EiLCJleHAiOjE2MDkwMzkzODgsImVtYWlsIjoic3VxcUBnbWFpbC5jb20ifQ.E7jSPDfISPVLVQcI6xnkI4oERHzX5d1-5K4ztJ15KJQ
 
 {
-       "password":"654321"
+       "password":"10086"
 }
 
 ###

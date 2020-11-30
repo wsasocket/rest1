@@ -2,9 +2,8 @@ from django.conf.urls import url
 
 from .views import (PersonalTasksCreateView, PersonalTasksListView,
                     ProjectCreateView, ProjectView, ReportCreateView,
-                    ReportListView, UserGroupCreateView, UserGroupUpdateView,
-                    UserGroupView, UserLoginView, UserPasswordSetView,
-                    UserProfileView, UserRegistrationView)
+                    ReportListView, UserGroupView, UserLoginView,
+                    UserPasswordSetView, UserProfileView, UserRegistrationView)
 
 urlpatterns = [
     # 用户注册
@@ -23,12 +22,16 @@ urlpatterns = [
     # 查看项目信息，可以指定项目id，需要用户权限
     url(r'^project/(?P<id>[\w\-]{36})?/?$', ProjectView.as_view()),
 
-    # 查看自己的任务列表，默认只返回自己可继续执行的任务，包括正在启动和暂停的任务
-    # all 代表获取自己全部的任务，st代表开始时间，et代表结束时间，et缺省的查询的当前时间，st缺省是本年度的1月1日
-    url(r'^tasks/(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
-        PersonalTasksListView.as_view()),
     # 个人创建自己的任务(task)，任务与project有关联
     url(r'^tasks/create/$', PersonalTasksCreateView.as_view()),
+
+    # 查看自己(或者指定用户)的任务列表，默认只返回自己可继续执行的任务，包括正在启动和暂停的任务
+    # all 代表获取自己全部的任务，st代表开始时间，et代表结束时间，et缺省的查询的当前时间，st缺省是本年度的1月1日
+    # 虽然三个参数都为可选，但是et必须和st成对出现，没有st，et就会被识别为st！！！
+    # 如果没有任何参数，就是查看自己且本年度正在进行或者暂停的项目
+    # 如果指定ID就是查看指定用户的，但是需要一定的权限
+    url(r'^tasks/(?P<id>[\w\-]{36})?/(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
+        PersonalTasksListView.as_view()),
 
     # 创建自己的report
     url(r'^report/create/$', ReportCreateView.as_view()),

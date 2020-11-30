@@ -55,7 +55,7 @@ class UserLoginSerializer(serializers.Serializer):
             update_last_login(None, user)
         except User.DoesNotExist:
             raise serializers.ValidationError(
-                'User with given email and password does not exists'
+                'User with given username and password does not exists'
             )
         return {
             # 自定义的结构，不是从Models派生出来的
@@ -76,13 +76,13 @@ class UserGroupSerializer(serializers.ModelSerializer):
         return UserGroup.objects.create(**validated_data)
 
     # 更新数据记录 使用POST或者PATCH PUT不重要，重要的是要传给这个函数一个instance，否则就会调用create
-    def update(self, instance, validated_data):
-        # instance 就是数据库查询实例
-        # instance.id = validated_data.get('id', instance.id)
-        instance.name = validated_data.get('name', instance.name)
-        instance.level = validated_data.get('level', instance.level)
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     # instance 就是数据库查询实例
+    #     # instance.id = validated_data.get('id', instance.id)
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.level = validated_data.get('level', instance.level)
+    #     instance.save()
+    #     return instance
 
 
 class UserGroupAtCreateUserSerializer(serializers.ModelSerializer):
@@ -137,15 +137,10 @@ class PersonalTasksSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return PersonalTasks.objects.create(**validated_data)
 
-    # def update(self, instance, validated_data):
-    #     instance.deadline = validated_data.get('deadline', instance.deadline)
-    #     instance.status = validated_data.get('status', instance.status)
-
-    #     instance.description = instance.description + \
-    #         validated_data.get('description', '')
-    #     instance.hours = validated_data.get('hours', instance.hours)
-    #     instance.update_time = validated_data.get(
-    #         'update_time', datetime.today())
+    def update(self, instance, validated_data):
+        instance.deadline = validated_data.get('deadline', instance.deadline)
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
 
 
 class UserSetPasswordSerializer(serializers.Serializer):
