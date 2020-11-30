@@ -163,13 +163,13 @@ class UserGroupView(RetrieveAPIView):
         # 传统的 ?name=xxxx 的方法
         # name = request.query_params.get('name', None)
         s = None
-        if 'id' not in kwarg.keys():
+        if 'gid' not in kwarg.keys():
             # 枚举所有的组信息
-            groups = UserGroup.objects.all()
+            groups = UserGroup.objects.order_by('-id').all()
             s = self.serializer_class(groups, many=True)
         else:
             # 枚举指定组信息
-            groups = UserGroup.objects.filter(id=kwarg['id']).first()
+            groups = UserGroup.objects.filter(id=kwarg['gid']).first()
             # 直接将数据库的结果导入到serializer中就能得到完美的结果
             s = self.serializer_class(groups)
         return Response(s.data, status=status.HTTP_200_OK)

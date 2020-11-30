@@ -13,7 +13,7 @@ urlpatterns = [
     # 更新用户密码，如果是个人有效token情况下，修改密码是修改自己的，否则只能让管理组成员修改指定用户密码
     url(r'^setpassword/(?P<id>[\w\-]{36})?/?$', UserPasswordSetView.as_view()),
     # 查询组信息，如果没有id就是查询全部组信息
-    url(r'^group/(?P<id>[\w\-]{36})?/?$', UserGroupView.as_view()),
+    url(r'^group/(?P<gid>[\w\-]{36})?/?$', UserGroupView.as_view()),
     # 获取全部或者指定id的用户信息，没有参数就是自己的信息,all-对于管理组就是全部，对用group-leader就是全组
     url(r'^profile/(?P<option>all|[\w\-]{36})?/?$', UserProfileView.as_view()),
 

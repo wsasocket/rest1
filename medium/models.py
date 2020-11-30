@@ -57,10 +57,6 @@ class Projects(models.Model):
     # 当前项目状态
     status = models.IntegerField(choices=status_choices)
 
-    @classmethod
-    def get_members(cls):
-        return cls.project.worker
-
     class Meta:
         db_table = "Projects"
 

@@ -68,12 +68,13 @@ class UserLoginSerializer(serializers.Serializer):
 class UserGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGroup
-        fields = ('id', 'name', 'level',)
+        fields = ['id', 'name', 'level']
+        # extra_kwargs = {'id': {'read_only': True}}
 
     # 创建数据记录
-    def create(self, validated_data):
-        # 返回 Models的数据
-        return UserGroup.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     # 返回 Models的数据
+    #     return UserGroup.objects.create(**validated_data)
 
     # 更新数据记录 使用POST或者PATCH PUT不重要，重要的是要传给这个函数一个instance，否则就会调用create
     # def update(self, instance, validated_data):
@@ -83,12 +84,6 @@ class UserGroupSerializer(serializers.ModelSerializer):
     #     instance.level = validated_data.get('level', instance.level)
     #     instance.save()
     #     return instance
-
-
-class UserGroupAtCreateUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserGroup
-        fields = ('id',)
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -121,11 +116,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     # 两个外键，如果需要详细信息需要增加单独的序列化模型，否则只有pk
     user = UserSerializer()
     group = UserGroupSerializer()
-    group.Meta.fields = ('name', 'level',)
+    group.Meta.fields = ('id', 'name', 'level',)
 
     class Meta:
         model = UserProfile
-        fields = ('user', 'group', "phone_number", 'gender', 'is_group_leader')
+        fields = ('id', 'user', 'group', "phone_number",
+                  'gender', 'is_group_leader')
 
 
 class PersonalTasksSerializer(serializers.ModelSerializer):
@@ -140,7 +136,7 @@ class PersonalTasksSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.deadline = validated_data.get('deadline', instance.deadline)
         instance.status = validated_data.get('status', instance.status)
-        instance.save()
+        # instance.save()
 
 
 class UserSetPasswordSerializer(serializers.Serializer):
