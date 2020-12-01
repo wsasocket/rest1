@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
 import pymysql
 
 pymysql.version_info = (2, 0, 1, "final", 0)
@@ -152,16 +153,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'zh-Hans'
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
-
-USE_TZ = True
+# 关闭后就默认使用本地时间
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -30,7 +30,7 @@ urlpatterns = [
     # 虽然三个参数都为可选，但是et必须和st成对出现，没有st，et就会被识别为st！！！
     # 如果没有任何参数，就是查看自己且本年度正在进行或者暂停的项目
     # 如果指定ID就是查看指定用户的，但是需要一定的权限
-    url(r'^tasks/(?P<id>[\w\-]{36})?/(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
+    url(r'^tasks/(?P<id>[\w\-]{36})?/?(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
         PersonalTasksListView.as_view()),
 
     # 创建自己的report

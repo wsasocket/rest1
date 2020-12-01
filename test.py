@@ -1,17 +1,22 @@
 
-from django.core.wsgi import get_wsgi_application
 import json
-import requests
-from functools import wraps
-import pymysql
-import os 
+import os
 import random
+from functools import wraps
+
+import pymysql
+import requests
+from django.core.wsgi import get_wsgi_application
+
 # pymysql.version_info = (1, 4, 13, "final", 0)
 pymysql.install_as_MySQLdb()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest.settings')
 application = get_wsgi_application()
-from medium.models import UserGroup, UserProfile, Projects, PersonalTasks, Reports
 from django.contrib.auth.models import User
+
+from medium.models import (PersonalTasks, Projects, Reports, UserGroup,
+                           UserProfile)
+
 GROUPS = ('安全组', '管理组', '前端组', '平台组', '网络组', '测试部', '应用组',)
 USERS = ({'夏继诚': 'M', '顾耀东': 'M'}, {'苏大强': 'M'}, {
          '王科达': 'M', '杨奎': 'M'}, {'顾邦才': 'M', '杨福朵': 'F'}, {'钟百鸣': 'M', '赵志勇': 'M'}, {'沈青禾': 'F', '顾悦溪': 'F'}, {'杨一学': 'M', '丁放': 'F'},)
@@ -48,25 +53,31 @@ def clean_database():
     for db in dbs:
         db.objects.all().delete()
 
+
 def generate_phone():
-    select_a = ['30','31','32','33','34','35','36','37','38','39','89','88','87','86','85','84','83','82','81','80']
+    select_a = ['30', '31', '32', '33', '34', '35', '36', '37', '38',
+                '39', '89', '88', '87', '86', '85', '84', '83', '82', '81', '80']
     A = select_a[random.randint(0, 19)]
     B = ''.join([str(random.randint(0, 9)) for i in range(10)])
     return f'1{A}{B}'
+
 
 def generate_passwd():
     lib = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     return ''.join([lib[random.randint(0, len(lib) - 1)] for i in range(12)])
 
+
 def generate_email():
     lib = 'abcdefghijklmnopqrstuvwxyz'
     return '{}@gmail.com'.format(''.join([lib[random.randint(0, len(lib) - 1)] for i in range(6)]))
+
 
 def get_groupid_by_name(groups, name):
     for g in groups:
         if g['name'] == name:
             return g['id']
     return None
+
 
 if __name__ == "__main__":
     # clean database
@@ -101,22 +112,35 @@ if __name__ == "__main__":
                 print(f'{name}注册用户失败')
 
     print('----登录测试1----')
-    for name,passwd in PASSWORD.items(): 
-        data=dict()
-        data["username"]=name
-        data["password"]=passwd
+    for name, passwd in PASSWORD.items():
+        data = dict()
+        data["username"] = name
+        data["password"] = passwd
         c, t = POST(URL + 'signin/', data=json.dumps(data))
         if c == 200:
             print(f'{name}登录成功')
+            AUTH_KEYS[name] = json.loads(t)['token']
         else:
             print(f'{name}登录失败')
     print('----登录测试2----')
-    for name,passwd in PASSWORD.items(): 
-        data=dict()
-        data["username"]=name
-        data["password"]=passwd+'1'
+    for name, passwd in PASSWORD.items():
+        data = dict()
+        data["username"] = name
+        data["password"] = passwd + '1'
         c, t = POST(URL + 'signin/', data=json.dumps(data))
         if c == 200:
             print(f'{name}登录成功')
         else:
             print(f'{name}登录失败')
+    print('----设置GroupLeader 仅能通过数据库直接操作完成----')
+    for g, u in zip(GROUPS, USERS):
+        leader = True
+        for name, gender in u.items():
+            u = User.objects.filter(username=name).first()
+            p = UserProfile.objects.filter(user=u).first()
+            p.is_group_leader = leader
+            p.save()
+            leader = not leader
+    print('----管理员修改用户口令----')
+
+    print('----创建团队的项目----')

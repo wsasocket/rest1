@@ -76,26 +76,32 @@ class UserPasswordSetView(UpdateAPIView):
         result = None
         s = None
         u = None
+        target_user = None
+        if profile_id:
+            target_user = UserProfile.objects.filter(id=profile_id).first()
+            if target_user is None:
+                return Response({'detail': '指定用户不存在'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                target_user = target_user.user
+
         if user.profile.group.level == 100:
             # 管理员改用户密码
-            target_user = UserProfile.objects.filter(
-                id=profile_id).first().user
-            s = self.serializer_class(target_user, data=request.data)
-            u = target_user
-        elif user.profile.is_group_leader:
-            # leader可以重置自己和自己组成员的数据
-            target_user = UserProfile.objects.filter(
-                id=profile_id).first().user
-            if user.profile.group.id == target_user.profile.group.id:
+            if target_user:
                 s = self.serializer_class(target_user, data=request.data)
                 u = target_user
-            else:
-                return Response({'detail': '你无权重置指定用户的Password'}, status=status.HTTP_403_FORBIDDEN)
-        else:
-            # 一般用户处理自己的passwd
+        elif user.profile.is_group_leader:
+            # leader可以重置自己组成员的数据
+            if target_user:
+                if user.profile.group.id == target_user.profile.group.id:
+                    s = self.serializer_class(target_user, data=request.data)
+                    u = target_user
+                else:
+                    return Response({'detail': '你无权重置指定用户的Password'}, status=status.HTTP_403_FORBIDDEN)
+        if not target_user:
+            # 处理自己的passwd
             s = self.serializer_class(user, data=request.data)
-            s.is_valid()
             u = user
+        s.is_valid()
         if isinstance(s.save(), User):
             result = {'result': '{}更新口令成功'.format(u.username)}
         else:
@@ -274,7 +280,7 @@ class PersonalTasksListView(ListAPIView):
         if profile_id is None:
             user = request.user
         else:
-            user = User.objects.filter(Profile__id=profile_id).first()
+            user = User.objects.filter(profile__id=profile_id).first()
 
         if user == request.user:
             pass
@@ -353,9 +359,13 @@ class ReportCreateView(CreateAPIView):
     serializer_class = ReportCreateSerializer
 
     def post(self, request):
+        user = request.user
         serializer = self.serializer_class(data=request.data)
         print(serializer.is_valid(raise_exception=True))
-        if serializer.validated_data['update_time'] == '':
+        tasks = serializer.validated_data['tasks']
+        if tasks.worker_id != user.id:
+            return Response({'detail': '你没有创建这个工作任务'}, status.HTTP_400_BAD_REQUEST)
+        if 'update_time' not in serializer.validated_data.keys():
             serializer.validated_data['update_time'] = datetime.today().strftime(
                 '%Y-%m-%d')
         serializer.save()
