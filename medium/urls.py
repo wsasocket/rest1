@@ -30,13 +30,13 @@ urlpatterns = [
     # 虽然三个参数都为可选，但是et必须和st成对出现，没有st，et就会被识别为st！！！
     # 如果没有任何参数，就是查看自己且本年度正在进行或者暂停的项目
     # 如果指定ID就是查看指定用户的，但是需要一定的权限
-    url(r'^tasks/(?P<id>[\w\-]{36})?/?(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
+    url(r'^tasks/(?P<uid>[\w\-]{36})?/?(?P<option>all|activate)?/?(?P<st>\d{4}-\d{2}-\d{2})?/?(?P<et>\d{4}-\d{2}-\d{2})?/?$',
         PersonalTasksListView.as_view()),
 
     # 创建自己的report
     url(r'^report/create/$', ReportCreateView.as_view()),
-    # 根据 人员的id和taskid获取相关report的信息，以更新时间排序
-    # 如果user_id不是自己的，需要检查请求用户的权限。
-    url(r'^report/(?P<tasks_id>[\w\- ]{36})/(?P<userprofile_id>[\w\- ]{36})?/?$',
+    # 根据和taskid获取相关report的信息，以更新时间排序
+    # 如果task不是自己的，需要检查请求用户的权限。
+    url(r'^report/(?P<task_id>[\w\- ]{36})/$',
         ReportListView.as_view()),
 ]

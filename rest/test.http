@@ -34,14 +34,14 @@ POST http://127.0.0.1:8000/api/signin/
 Content-Type: application/json
 
 {
- "username":"夏继诚",
+ "username":"顾耀东",
  "password":"10086"
 }
 
 ###
 # 更新用户的口令
 
-PUT http://127.0.0.1:8000/api/setpassword/d4c47c5c-beea-4588-a441-143e29e990b1/
+PUT http://127.0.0.1:8000/api/setpassword/2eedef0a-7eeb-4a00-ad05-03bfe0390aea/
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTYsInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzc2NDU0LCJlbWFpbCI6ImVqemx6c0BnbWFpbC5jb20ifQ.AaIwG7V5QCGHzEQfuTZgcwIrdwGMQieZLmstWDluSVU
 
@@ -78,12 +78,12 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c
 # 创建新项目
 POST http://127.0.0.1:8000/api/project/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTgsInVzZXJuYW1lIjoiXHU4MmNmXHU1OTI3XHU1ZjNhIiwiZXhwIjoxNjA5Mzc3MDQ1LCJlbWFpbCI6ImR3cWhycUBnbWFpbC5jb20ifQ.MaiBrHpSUZsrxmyTU7UvLveY62cyVkoAX86hfL_bTiY
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjksInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzk1NDM3LCJlbWFpbCI6ImJwaGpnakBnbWFpbC5jb20ifQ.AQOyv8M_tQ9RmuDAD1VTZRkKswM0dcfz06NHfksgs6g
 
 {
        "status":1,
-       "name":"花花公子5.0项目",
-       "description":"内容保密",
+       "name":"Python教学项目",
+       "description":"Python是一种计算机程序设计语言",
        "start_time":"2020-11-11",
        "deadline": "2021-11-01"
 }
@@ -91,13 +91,13 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTgsI
 
 ### 
 # 查询项目信息
-GET http://127.0.0.1:8000/api/project/b856cb25-b988-4283-96d1-3c0977fc6858/
+GET http://127.0.0.1:8000/api/project/
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5OTIxNywiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.V_AlwfdFMss0GRXs1U98fbNt7xFS7ju2odqp4secFCA
 
 ###
 # 查询单个项目信息
-GET http://127.0.0.1:8000/api/project/
+GET http://127.0.0.1:8000/api/project/1e7762cd-8c60-4d2a-bcc2-2692c0cff83f/
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5OTIxNywiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.V_AlwfdFMss0GRXs1U98fbNt7xFS7ju2odqp4secFCA
 
@@ -107,18 +107,18 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c
 # 创建个人工作项目
 POST http://127.0.0.1:8000/api/tasks/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Ilx1OTg3ZVx1ODAwMFx1NGUxYyIsImV4cCI6MTYwODg5OTIxNywiZW1haWwiOiJndXlkQGdtYWlsLmNvbSJ9.V_AlwfdFMss0GRXs1U98fbNt7xFS7ju2odqp4secFCA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjksInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzk1NDM3LCJlbWFpbCI6ImJwaGpnakBnbWFpbC5jb20ifQ.AQOyv8M_tQ9RmuDAD1VTZRkKswM0dcfz06NHfksgs6g
 
 {
-       "project":"b856cb25-b988-4283-96d1-3c0977fc6858",
-       "brief":"首先，我们普及一下编程语言的基础知识。用任何编程语言来开发程序，都是为了让计算机干活，比如下载一个MP3，编写一个文档等等，而计算机干活的CPU只认识机器指令，所以，尽管不同的编程语言差异极大，最后都得“翻译”成CPU可以执行的机器指令。而不同的编程语言，干同一个活，编写的代码量，差距也很大。", 
+       "project":"1e7762cd-8c60-4d2a-bcc2-2692c0cff83f",
+       "brief":"Python！！！", 
        "status":2,
        "start_time":"2020-11-27"
 }
 
 ###
-# 查询个人工作项目
-GET http://127.0.0.1:8000/api/tasks/57f5d206-1b00-430a-a34c-e00bedec83c9/
+# 查询个人工作项目，
+GET http://127.0.0.1:8000/api/tasks/2eedef0a-7eeb-4a00-ad05-03bfe0390aea/
 Content-Type: application/json
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTYsInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzc4Nzc1LCJlbWFpbCI6ImVqemx6c0BnbWFpbC5jb20ifQ.it3l0QpXDeZteQvi6mR0QfKUZFM6AT8bXWtObnASmYE
 
@@ -127,17 +127,17 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTYsI
 # 创建周(日)报
 POST  http://127.0.0.1:8000/api/report/create/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTYsInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzc4Nzc1LCJlbWFpbCI6ImVqemx6c0BnbWFpbC5jb20ifQ.it3l0QpXDeZteQvi6mR0QfKUZFM6AT8bXWtObnASmYE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjksInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzk1NDM3LCJlbWFpbCI6ImJwaGpnakBnbWFpbC5jb20ifQ.AQOyv8M_tQ9RmuDAD1VTZRkKswM0dcfz06NHfksgs6g
 
 {
-       "description":"用Python可以做什么？可以做日常任务，比如自动备份你的MP3；可以做网站，很多著名的网站包括YouTube就是Python写的；可以做网络游戏的后台，很多在线游戏的后台都是Python开发的。总之就是能干很多很多事啦。！",
-       "hours":40,
-       "tasks":"2cec6995-96da-4c2c-bd5d-f637e5cdf3a3"
+       "description":"Information in this blog post is intended for cybersecurity researchers and specialists developing RTF file parsers. The research is based on the work already performed by other cybersecurity researchers and firms. Its goal is to put some additional content on their work to enable the audience not so much familiar with this area to better understand it.",
+       "hours":20,
+       "tasks":"eb0c995c-5e8b-46d3-8dfe-a277ff992908"
 
 }
 
 ###
 # 查询日报信息
-GET http://127.0.0.1:8000/api/report/2cec6995-96da-4c2c-bd5d-f637e5cdf3a3/
+GET http://127.0.0.1:8000/api/report/eb0c995c-5e8b-46d3-8dfe-a277ff992908/
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTYsInVzZXJuYW1lIjoiXHU1OTBmXHU3ZWU3XHU4YmRhIiwiZXhwIjoxNjA5Mzc4Nzc1LCJlbWFpbCI6ImVqemx6c0BnbWFpbC5jb20ifQ.it3l0QpXDeZteQvi6mR0QfKUZFM6AT8bXWtObnASmYE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMzAsInVzZXJuYW1lIjoiXHU5ODdlXHU4MDAwXHU0ZTFjIiwiZXhwIjoxNjA5Mzk3NzI2LCJlbWFpbCI6InhkYmV4Y0BnbWFpbC5jb20ifQ.oyjpimBWh7jWDSh28No0odl0E-0uw0S0_k1XFMLcRjI

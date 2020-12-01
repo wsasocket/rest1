@@ -274,14 +274,15 @@ class PersonalTasksListView(ListAPIView):
         st = kwargs.get('st', '{}-01-01'.format(year))
         et = kwargs.get('et', datetime.today().strftime('%Y-%m-%d'))
         option = kwargs.get('option', 'activate')
-        profile_id = kwargs.get('id', None)
+        profile_id = kwargs.get('uid', None)
         user = None
 
         if profile_id is None:
             user = request.user
         else:
             user = User.objects.filter(profile__id=profile_id).first()
-
+            if user is None:
+                return Response({'detail': '指定的用户不存在'}, status=status.HTTP_400_BAD_REQUEST)
         if user == request.user:
             pass
         else:
@@ -329,26 +330,29 @@ class ReportListView(ListAPIView):
     serializer_class = ReportSerializer
 
     def get(self, request, **kwargs):
-        tasks_id = kwargs.get('tasks_id', None)
-        userprofile_id = kwargs.get('userprofile_id', None)
-        if userprofile_id is None:
-            userprofile_id = request.user.profile.id
-        else:
-            if request.user.profile.is_group_leader:
-                if request.user.profile.group.id != Profile.objects.filter(profile__id=userprofile_id).first().group.id:
-                    # 是groupleader 并且是相同组
-                    return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
-            else:
-                return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
-
-        user = User.objects.filter(profile__id=userprofile_id).first()
-        if not user:
+        reports = None
+        task_id = kwargs.get('task_id', None)
+        if task_id is None:
+            return Response({'detail': '没有提供任务编号'}, status=status.HTTP_400_BAD_REQUEST)
+        task = PersonalTasks.objects.filter(id=task_id).first()
+        if task is None:
+            return Response({'detail': '提供的任务编号有问题'}, status.HTTP_400_BAD_REQUEST)
+        task_owner = User.objects.get(id=task.worker_id)
+        if not task_owner:
             return Response({'detail': '用户不存在'}, status.HTTP_400_BAD_REQUEST)
-        # TODO 应当根据用户的项目列表返回用户的报告
-        rec = Reports.objects.filter(
-            tasks__id=tasks_id).filter(tasks__worker=user).all()
-        # rec = Reports.objects.all()
-        s = self.serializer_class(rec, many=True)
+        if request.user.profile.is_group_leader:
+            if request.user.profile.group.id != task_owner.profile.group.id:
+                # 是groupleader 并且不是相同组
+                return Response({'detail': '你没有权限'}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                # 同组成员
+                reports = Reports.objects.filter(tasks__id=task_id).all()
+        if request.user == task_owner:
+            # 自己的任务
+            reports = Reports.objects.filter(tasks__id=task_id).all()
+        if reports is None:
+            return Response({'detail': '不知道你想干啥'}, status=status.HTTP_400_BAD_REQUEST)
+        s = self.serializer_class(reports, many=True)
         status_code = status.HTTP_200_OK
         return Response(s.data, status_code)
 
@@ -364,7 +368,7 @@ class ReportCreateView(CreateAPIView):
         print(serializer.is_valid(raise_exception=True))
         tasks = serializer.validated_data['tasks']
         if tasks.worker_id != user.id:
-            return Response({'detail': '你没有创建这个工作任务'}, status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': '{}你没有创建这个工作任务'.format(user.username)}, status.HTTP_400_BAD_REQUEST)
         if 'update_time' not in serializer.validated_data.keys():
             serializer.validated_data['update_time'] = datetime.today().strftime(
                 '%Y-%m-%d')
